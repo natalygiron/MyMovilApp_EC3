@@ -24,26 +24,35 @@
                 android:src="@drawable/pixiemujer"
                 />
 
-            <TextView
-                android:id="@+id/text_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="Nataly Girón"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                />
-            <TextView
-                android:id="@+id/text_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="+51998001467"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                />
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="Nataly Girón"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    />
+                <TextView
+                    android:id="@+id/text_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="+51998001467"
+                    android:textSize="22sp"
+                    />
+
+            </LinearLayout>
+
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/edit_button"
                 android:layout_width="wrap_content"
@@ -52,6 +61,7 @@
                 android:paddingStart="25dp"
                 android:layout_gravity="center"
                 android:text="Edit profile"
+                android:textSize="14dp"
                 android:textAllCaps="false"
                 android:paddingEnd="25dp"
                 />
@@ -59,12 +69,14 @@
                 android:id="@+id/start_button"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:paddingStart="25dp"
+                android:layout_marginTop="80dp"
+                android:layout_alignParentBottom="true"
+                android:paddingStart="30dp"
                 android:layout_gravity="center"
                 android:text="Start"
+                android:textSize="16dp"
                 android:textAllCaps="false"
-                android:paddingEnd="25dp"
+                android:paddingEnd="30dp"
                 />
         </LinearLayout>
     </ScrollView>

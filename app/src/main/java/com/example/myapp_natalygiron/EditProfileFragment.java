@@ -6,8 +6,11 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +25,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.myapp_natalygiron.model.ProfileEntry;
 import com.google.android.material.button.MaterialButton;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class EditProfileFragment extends Fragment {
 
@@ -37,7 +45,7 @@ public class EditProfileFragment extends Fragment {
     String profileOrCoverImage;
     MaterialButton editImage;
     MaterialButton saveChanges;
-
+    Uri myuri;
     EditText txt_name, txt_phone;
 
     @Override
@@ -54,9 +62,6 @@ public class EditProfileFragment extends Fragment {
 
         /* User Info */
         saveChanges = view.findViewById(R.id.save_button);
-        String txtName = view.findViewById(R.id.text_name).toString();
-        String txtPhone = view.findViewById(R.id.text_phone).toString();
-        ProfileEntry profile = new ProfileEntry(txtName,txtPhone);
 
         editImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +78,8 @@ public class EditProfileFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("name", txt_name.getText().toString().trim());
                 bundle.putString("phone",txt_phone.getText().toString().trim());
+                bundle.putString("image",myuri.toString());
+
                 getParentFragmentManager().setFragmentResult("key", bundle);
 
                 ((NavigationHost) getActivity()).navigateTo(new ProfileFragment(), false);
@@ -92,15 +99,17 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
+                bundle.putString("image",myuri.toString());
                 bundle.putString("name", txt_name.getText().toString().trim());
                 bundle.putString("phone",txt_phone.getText().toString().trim());
                 getParentFragmentManager().setFragmentResult("key", bundle);
-
                 ((NavigationHost) getActivity()).navigateTo(new ProfileFragment(), false);
 
             }
         });
     }
+
+//    doc https://developer.android.com/guide/topics/media/camera.html#intent-receive
 
     private void showImagePicDialog() {
         String options[] = {"Camera", "Gallery"};
@@ -138,7 +147,9 @@ public class EditProfileFragment extends Fragment {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_REQUEST);
+        myuri = imageUri;
     }
+
 
     @Override
     public  void  onPause(){
