@@ -2,11 +2,10 @@ package com.example.myapp_natalygiron;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +15,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
 import com.bumptech.glide.Glide;
+import com.example.myapp_natalygiron.model.Lyrics;
+import com.example.myapp_natalygiron.model.LyricsResponse;
+import com.example.myapp_natalygiron.tslyrics_api.LyricsFragment;
+import com.example.myapp_natalygiron.tslyrics_api.TSLyricsService;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -24,6 +37,8 @@ public class ProfileFragment extends Fragment {
     TextView txtname, txtphone;
     String txtName, txtPhone;
     Uri myuri;
+
+    private static final String TAG = "LYRICS";
 
     @Override
     public View onCreateView(
@@ -46,7 +61,7 @@ public class ProfileFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((NavigationHost) getActivity()).navigateTo(new EditProfileFragment(), false);
+                ((NavigationHost) getActivity()).navigateTo(new LyricsFragment(), false);
             }
         });
 
