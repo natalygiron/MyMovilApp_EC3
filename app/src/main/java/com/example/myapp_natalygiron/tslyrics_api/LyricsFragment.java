@@ -19,7 +19,6 @@ import com.example.myapp_natalygiron.LyricsListAdapter;
 import com.example.myapp_natalygiron.R;
 import com.example.myapp_natalygiron.RetrofitClient;
 import com.example.myapp_natalygiron.model.Lyrics;
-import com.example.myapp_natalygiron.model.LyricsResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +26,15 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LyricsFragment extends Fragment  {
 
-    private Retrofit retrofit;
     private static final String TAG = "LYRICS";
     private RecyclerView recyclerView;
     private LyricsListAdapter lyricsListAdapter;
     LinearLayoutManager horizontalLayout;
     Spinner spinner;
-    String getalbum;
+    String album;
     TSLyricsService service;
 
     @Override
@@ -57,17 +53,6 @@ public class LyricsFragment extends Fragment  {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item,getAlbums());
         spinner.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
         // Para horizontal scroll
         horizontalLayout = new LinearLayoutManager(
                 getContext(),
@@ -75,27 +60,18 @@ public class LyricsFragment extends Fragment  {
                 false);
         recyclerView.setLayoutManager(horizontalLayout);
 
-
-
         // Para usar Grid Layout
         // recyclerView.setLayoutManager(layoutManager);
 
-//        TSLyricsService service = RetrofitClient.getRetrofitInstance().create(TSLyricsService.class);
         service = RetrofitClient.getRetrofitInstance().create(TSLyricsService.class);
-        Call<List<Lyrics>> call = service.getLyricsList("folklore");
+        Call<List<Lyrics>> call = service.getLyricsList(getAlbums().get(0));
 
         call.enqueue(new Callback<List<Lyrics>>() {
             @Override
             public void onResponse(Call<List<Lyrics>> call, Response<List<Lyrics>> response) {
-                Log.e(TAG, "onResponse: " + response.code() + "\n"+
-                        " message: " + response.message() + " body: " + response.body());
-
                 if(response.isSuccessful()){
                     List<Lyrics> data = response.body();
                     lyricsListAdapter.addLyricsList(data);
-                    for (Lyrics dt : data ) {
-                        Log.e(TAG, "onResponse: quote:" + dt.getQuote());
-                    }
                 } else {
                     Log.e(TAG,"onResponse: No successful: "+response.errorBody());
                 }
@@ -112,7 +88,7 @@ public class LyricsFragment extends Fragment  {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!getSelectedAlbum().equals("")) {
                     lyricsListAdapter.removeData();
-                    Call<List<Lyrics>> call = service.getLyricsList(getalbum);
+                    Call<List<Lyrics>> call = service.getLyricsList(album);
 
                     call.enqueue(new Callback<List<Lyrics>>() {
                         @Override
@@ -123,9 +99,6 @@ public class LyricsFragment extends Fragment  {
                             if (response.isSuccessful()) {
                                 List<Lyrics> newdata = response.body();
                                 lyricsListAdapter.addLyricsList(newdata);
-                                for (Lyrics dt : newdata) {
-                                    Log.e(TAG, "onResponse: quote:" + dt.getQuote());
-                                }
                             } else {
                                 Log.e(TAG, "onResponse: No successful: " + response.errorBody());
                             }
@@ -137,12 +110,11 @@ public class LyricsFragment extends Fragment  {
                         }
                     });
 
-
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                getalbum = "evermore";
+                album = "evermore";
             }
         });
 
@@ -165,8 +137,8 @@ public class LyricsFragment extends Fragment  {
     }
 
     private String getSelectedAlbum() {
-        getalbum = spinner.getSelectedItem().toString();
-        return getalbum;
+        album = spinner.getSelectedItem().toString();
+        return album;
     }
 
 

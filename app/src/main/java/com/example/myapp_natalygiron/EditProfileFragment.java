@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,10 @@ public class EditProfileFragment extends Fragment {
     private static  final int IMAGE_PICK_CAMERA_REQUEST = 400;
 
     String cameraPermission[];
-    Uri imageUri;
+    Uri imageUri, myuri;
     String profileOrCoverImage;
     MaterialButton editImage;
     MaterialButton saveChanges;
-    Uri myuri;
     EditText txt_name, txt_phone;
 
     @Override
@@ -60,8 +60,13 @@ public class EditProfileFragment extends Fragment {
         progressDialog.setCanceledOnTouchOutside(false);
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
+        // myuri =  Uri.parse(imageEditProfile.toString());
+
         /* User Info */
         saveChanges = view.findViewById(R.id.save_button);
+
+        editImage.setBackgroundColor(getResources().getColor(R.color.davys_grey, getContext().getTheme()));
+        saveChanges.setBackgroundColor(getResources().getColor(R.color.orange_soda, getContext().getTheme()));
 
         editImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +104,10 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putString("image",myuri.toString());
+
                 bundle.putString("name", txt_name.getText().toString().trim());
                 bundle.putString("phone",txt_phone.getText().toString().trim());
+                if(myuri!=null){bundle.putString("image",myuri.toString());}
                 getParentFragmentManager().setFragmentResult("key", bundle);
                 ((NavigationHost) getActivity()).navigateTo(new ProfileFragment(), false);
 

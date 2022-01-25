@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="onyx">#2F3337</color>
+    <color name="orange_soda">#F0552E</color>
+    <color name="davys_grey">#4F5450</color>
+    <color name="misty_rose">#F1D5CF</color>
+    <color name="cultured">#F4F4F4</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

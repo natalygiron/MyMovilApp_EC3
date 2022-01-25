@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MyApp_NatalyGiron</string>
+    <string name="lyrics_fragment_title">Welcome!</string>
+    <string name="lyrics_fragment_description">On this page you can see some lyrics from each Taylor Swift album. To get started, select an album:</string>
+    <string name="lyrics_fragment_media">Oficial Social Media:</string>
+    <string name="lyrics_fragment_media_info">"@taylorswift13"</string>
+    <string name="spinner_name">Album Spinner</string>
+    <string name="lyrics_fragment_img">TaylorSwift Reputation</string>
 </resources>

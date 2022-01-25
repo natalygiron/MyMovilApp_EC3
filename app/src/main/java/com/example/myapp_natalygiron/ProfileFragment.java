@@ -1,5 +1,6 @@
 package com.example.myapp_natalygiron;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
@@ -51,6 +53,9 @@ public class ProfileFragment extends Fragment {
         txtName = view.findViewById(R.id.text_name).toString();
         txtPhone = view.findViewById(R.id.text_phone).toString();
 
+        editButton.setBackgroundColor(getResources().getColor(R.color.orange_soda, getContext().getTheme()));
+        startButton.setBackgroundColor(getResources().getColor(R.color.orange_soda, getContext().getTheme()));
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +92,8 @@ public class ProfileFragment extends Fragment {
                     txtname.setText(name);
                     txtphone.setText(phone);
                 }
-                myuri = Uri.parse(uri);
-                if(!uri.equals("")){
+                if(uri!=null){
+                    myuri = Uri.parse(uri);
                     Glide.with(getContext()).load(myuri).into(imageProfile);
 //                    imageProfile.setImageURI(myuri);
                 }
